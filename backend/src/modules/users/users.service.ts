@@ -5,12 +5,14 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { TokenService } from '../token/token.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly usersReposittory: Repository<User>,
     private readonly tokenService: TokenService,
+    private readonly configService: ConfigService,
   ) {}
 
   async hashPassword(password: string): Promise<string> {
@@ -25,12 +27,13 @@ export class UsersService {
   }
 
   async createUser(dto: CreateUserDto): Promise<any> {
+    const adminEmail = this.configService.get('admin_email');
     const user = {
       firstName: dto.firstName,
       lastName: dto.lastName,
       email: dto.email,
       password: await this.hashPassword(dto.password),
-      isAdmin: false,
+      isAdmin: dto.email === adminEmail ? true : false,
     };
     return this.usersReposittory.save(user);
   }
