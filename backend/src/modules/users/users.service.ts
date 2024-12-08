@@ -6,6 +6,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { TokenService } from '../token/token.service';
 import { ConfigService } from '@nestjs/config';
+import { AuthUserResponse } from '../auth/response/auth-user.response';
 
 @Injectable()
 export class UsersService {
@@ -26,7 +27,7 @@ export class UsersService {
     }
   }
 
-  async createUser(dto: CreateUserDto): Promise<any> {
+  async createUser(dto: CreateUserDto): Promise<void> {
     const adminEmail = this.configService.get('admin_email');
     const user = {
       firstName: dto.firstName,
@@ -35,7 +36,7 @@ export class UsersService {
       password: await this.hashPassword(dto.password),
       isAdmin: dto.email === adminEmail ? true : false,
     };
-    return this.usersReposittory.save(user);
+    await this.usersReposittory.save(user);
   }
 
   async findUserByEmail(email: string): Promise<User> {
@@ -45,7 +46,7 @@ export class UsersService {
       throw new Error(e);
     }
   }
-  async publicUser(email: string): Promise<any> {
+  async publicUser(email: string): Promise<AuthUserResponse> {
     try {
       const user = await this.usersReposittory.findOne({
         where: { email },
