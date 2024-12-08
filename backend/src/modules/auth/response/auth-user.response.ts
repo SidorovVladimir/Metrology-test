@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsEmail, IsNumber, IsString } from 'class-validator';
 
 class UserResponse {
   @IsNumber()
@@ -10,7 +10,7 @@ class UserResponse {
   @IsString()
   lastName: string;
 
-  @IsString()
+  @IsEmail()
   email: string;
 
   @IsBoolean()
