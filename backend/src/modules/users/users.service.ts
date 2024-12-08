@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { TokenService } from '../token/token.service';
 import { ConfigService } from '@nestjs/config';
 import { AuthUserResponse } from '../auth/response/auth-user.response';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -60,6 +61,24 @@ export class UsersService {
       });
       const token = await this.tokenService.generateJwtToken(user);
       return { user, token };
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  async deleteUser(id: number): Promise<boolean> {
+    try {
+      await this.usersReposittory.delete(id);
+      return true;
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  async updateUser(id: number, dto: UpdateUserDto): Promise<UpdateUserDto> {
+    try {
+      await this.usersReposittory.update(id, dto);
+      return dto;
     } catch (e) {
       throw new Error(e);
     }
