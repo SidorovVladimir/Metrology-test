@@ -1,7 +1,9 @@
+import { Question } from 'src/modules/questions/entities/question.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -12,6 +14,9 @@ export class Test {
 
   @Column('text')
   title: string;
+
+  @OneToMany(() => Question, (question) => question.test)
+  question: Question[];
 
   @CreateDateColumn()
   created_at: string;
