@@ -10,6 +10,8 @@ import { AuthModule } from '../auth/auth.module';
 import { TokenModule } from '../token/token.module';
 import { TestsModule } from '../tests/tests.module';
 import { Test } from '../tests/entities/test.entity';
+import { QuestionsModule } from '../questions/questions.module';
+import { Question } from '../questions/entities/question.entity';
 
 @Module({
   imports: [
@@ -27,7 +29,7 @@ import { Test } from '../tests/entities/test.entity';
         username: configService.get('db_user'),
         password: configService.get('db_password'),
         database: configService.get('db_name'),
-        entities: [User, Test],
+        entities: [User, Test, Question],
         synchronize: true,
         autoLoadEntities: true,
       }),
@@ -36,6 +38,7 @@ import { Test } from '../tests/entities/test.entity';
     AuthModule,
     TokenModule,
     TestsModule,
+    QuestionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
