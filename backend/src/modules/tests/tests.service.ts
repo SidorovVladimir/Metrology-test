@@ -4,11 +4,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTestDTO } from './dto/create-test.dto';
 import { UpdateTestDTO } from './dto/update-test.dto';
+import { QuestionsService } from '../questions/questions.service';
 
 @Injectable()
 export class TestsService {
   constructor(
     @InjectRepository(Test) private readonly testsRepository: Repository<Test>,
+    private readonly questionsService: QuestionsService,
   ) {}
 
   async createTest(dto: CreateTestDTO): Promise<CreateTestDTO> {
@@ -29,10 +31,10 @@ export class TestsService {
     }
   }
 
-  async deleteTest(testId: number): Promise<boolean> {
+  async deleteTest(testId: number): Promise<void> {
     try {
+      await this.questionsService.deleteAllQuestionsTest(testId);
       await this.testsRepository.delete(testId);
-      return true;
     } catch (e) {
       throw new Error(e);
     }
@@ -40,7 +42,11 @@ export class TestsService {
 
   async getAllTests(): Promise<Test[]> {
     try {
-      return this.testsRepository.find();
+      return this.testsRepository.find({
+        relations: {
+          questions: true,
+        },
+      });
     } catch (e) {
       throw new Error(e);
     }
