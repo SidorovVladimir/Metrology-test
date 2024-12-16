@@ -19,7 +19,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Delete()
   @Role('admin')
-  deleteUser(@Req() request): Promise<boolean> {
+  deleteUser(@Req() request): Promise<void> {
     const user = request.user;
     return this.usersService.deleteUser(user.id);
   }

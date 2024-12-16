@@ -66,10 +66,9 @@ export class UsersService {
     }
   }
 
-  async deleteUser(id: number): Promise<boolean> {
+  async deleteUser(id: number): Promise<void> {
     try {
       await this.usersReposittory.delete(id);
-      return true;
     } catch (e) {
       throw new Error(e);
     }

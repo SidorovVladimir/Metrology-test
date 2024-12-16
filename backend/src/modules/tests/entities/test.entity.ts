@@ -15,8 +15,8 @@ export class Test {
   @Column('text')
   title: string;
 
-  @OneToMany(() => Question, (question) => question.test)
-  question: Question[];
+  @OneToMany('Question', 'test')
+  questions: Question[];
 
   @CreateDateColumn()
   created_at: string;

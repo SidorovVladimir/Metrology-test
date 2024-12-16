@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -18,7 +19,11 @@ export class Question {
   @Column('boolean')
   has_multiple_answers: boolean;
 
-  @ManyToOne(() => Test, (test) => test.question)
+  @Column()
+  testId: number;
+
+  @ManyToOne('Test')
+  @JoinColumn({ name: 'testId' })
   test: Test;
 
   @CreateDateColumn()

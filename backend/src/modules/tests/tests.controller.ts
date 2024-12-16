@@ -31,7 +31,7 @@ export class TestsController {
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Delete(':id')
   @Role('admin')
-  deleteTest(@Param('id', ParseIntPipe) testId: number): Promise<boolean> {
+  deleteTest(@Param('id', ParseIntPipe) testId: number): Promise<void> {
     return this.testsService.deleteTest(testId);
   }
 
