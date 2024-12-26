@@ -1,36 +1,39 @@
-import { Attempt } from 'src/modules/attempts/entities/attempt.entity';
+import { IsNumber, IsString } from 'class-validator';
 import { Course } from 'src/modules/courses/entities/course.entity';
-import { Question } from 'src/modules/questions/entities/question.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToOne,
-  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity('tests')
-export class Test {
+@Entity('video_materials')
+export class VideoMaterial {
+  @IsNumber()
   @PrimaryGeneratedColumn()
-  id: number;
+  video_id: number;
 
+  @IsString()
+  @Column('text')
+  video_url: string;
+
+  @IsString()
   @Column('text')
   title: string;
 
-  @OneToMany('Question', 'test')
-  questions: Question[];
+  @IsString()
+  @Column('text')
+  description: string;
 
+  @IsNumber()
   @Column()
   course_id: number;
 
-  @ManyToOne('Course')
+  @OneToOne('Course')
   @JoinColumn({ name: 'course_id' })
   course: Course;
-
-  @OneToMany('Attempt', 'test')
-  attempt: Attempt[];
 
   @CreateDateColumn()
   created_at: string;

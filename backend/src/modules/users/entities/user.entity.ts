@@ -1,7 +1,9 @@
+import { Attempt } from 'src/modules/attempts/entities/attempt.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -25,6 +27,9 @@ export class User {
 
   @Column('boolean')
   isAdmin: boolean;
+
+  @OneToMany('Attempt', 'user')
+  attempt: Attempt[];
 
   @CreateDateColumn()
   created_at: string;
