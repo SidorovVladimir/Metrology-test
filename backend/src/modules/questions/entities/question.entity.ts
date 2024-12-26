@@ -1,3 +1,4 @@
+import { Answer } from 'src/modules/answers/entities/answer.entity';
 import { Test } from 'src/modules/tests/entities/test.entity';
 import {
   Column,
@@ -5,13 +6,14 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity('questions')
 export class Question {
   @PrimaryGeneratedColumn()
-  id: number;
+  question_id: number;
 
   @Column('text')
   text: string;
@@ -20,11 +22,14 @@ export class Question {
   has_multiple_answers: boolean;
 
   @Column()
-  testId: number;
+  test_id: number;
 
   @ManyToOne('Test')
-  @JoinColumn({ name: 'testId' })
+  @JoinColumn({ name: 'test_id' })
   test: Test;
+
+  @OneToMany('Answer', 'question')
+  answers: Answer[];
 
   @CreateDateColumn()
   create_at: string;

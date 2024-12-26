@@ -17,7 +17,7 @@ export class QuestionsService {
       const data = {
         text: dto.text,
         has_multiple_answers: dto.has_multiple_answers,
-        testId,
+        test_id: testId,
       };
       const question = await this.questionsRepository.save(data);
       return question;
@@ -45,7 +45,7 @@ export class QuestionsService {
 
   async deleteAllQuestionsTest(testId: number): Promise<void> {
     try {
-      await this.questionsRepository.delete({ testId });
+      await this.questionsRepository.delete({ test_id: testId });
     } catch (e) {
       throw new Error(e);
     }

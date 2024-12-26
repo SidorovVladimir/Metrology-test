@@ -12,6 +12,11 @@ import { TestsModule } from '../tests/tests.module';
 import { Test } from '../tests/entities/test.entity';
 import { QuestionsModule } from '../questions/questions.module';
 import { Question } from '../questions/entities/question.entity';
+import { Course } from '../courses/entities/course.entity';
+import { VideoMaterial } from '../video-materials/entities/video-material.entity';
+import { Answer } from '../answers/entities/answer.entity';
+import { Image } from '../images/entities/image.entity';
+import { Attempt } from '../attempts/entities/attempt.entity';
 
 @Module({
   imports: [
@@ -29,7 +34,16 @@ import { Question } from '../questions/entities/question.entity';
         username: configService.get('db_user'),
         password: configService.get('db_password'),
         database: configService.get('db_name'),
-        entities: [User, Test, Question],
+        entities: [
+          User,
+          Test,
+          Question,
+          Course,
+          VideoMaterial,
+          Answer,
+          Image,
+          Attempt,
+        ],
         synchronize: true,
         autoLoadEntities: true,
       }),
