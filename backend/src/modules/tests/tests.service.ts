@@ -13,39 +13,54 @@ export class TestsService {
     private readonly questionsService: QuestionsService,
   ) {}
 
-  async createTest(dto: CreateTestDTO): Promise<CreateTestDTO> {
+  async createTest(dto: CreateTestDTO, id: number): Promise<Test> {
     try {
-      const test = await this.testsRepository.save({ title: dto.title });
+      const test = new Test();
+      test.course_id = id;
+      test.title = dto.title;
+      await this.testsRepository.save(test);
       return test;
     } catch (e) {
       throw new Error(e);
     }
   }
 
-  async updateTest(testId, dto: UpdateTestDTO): Promise<UpdateTestDTO> {
+  async updateTest(
+    testId: number,
+    courseId: number,
+    dto: UpdateTestDTO,
+  ): Promise<Test> {
     try {
-      await this.testsRepository.update(testId, dto);
-      return dto;
+      const test = await this.getOneCourseTest(courseId, testId);
+      test.title = dto.title;
+      await this.testsRepository.save(test);
+      return test;
     } catch (e) {
       throw new Error(e);
     }
   }
 
-  async deleteTest(testId: number): Promise<void> {
+  async deleteTest(testId: number, courseId: number): Promise<void> {
     try {
       await this.questionsService.deleteAllQuestionsTest(testId);
-      await this.testsRepository.delete(testId);
+      await this.testsRepository.delete({ course_id: courseId, id: testId });
     } catch (e) {
       throw new Error(e);
     }
   }
 
-  async getAllTests(): Promise<Test[]> {
+  async getAllCourseTests(id: number): Promise<Test[]> {
     try {
-      return this.testsRepository.find({
-        relations: {
-          questions: true,
-        },
+      return this.testsRepository.find({ where: { course_id: id } });
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  async getOneCourseTest(courseId: number, testId: number): Promise<Test> {
+    try {
+      return this.testsRepository.findOne({
+        where: { course_id: courseId, id: testId },
       });
     } catch (e) {
       throw new Error(e);

@@ -17,37 +17,55 @@ import { CreateTestDTO } from './dto/create-test.dto';
 import { Test } from './entities/test.entity';
 import { UpdateTestDTO } from './dto/update-test.dto';
 
-@Controller('tests')
+@Controller('courses')
 export class TestsController {
   constructor(private readonly testsService: TestsService) {}
 
   @UseGuards(JwtAuthGuard, RoleGuard)
-  @Post('create')
+  @Post(':courseId/tests')
   @Role('admin')
-  createTest(@Body() createTestDto: CreateTestDTO): Promise<CreateTestDTO> {
-    return this.testsService.createTest(createTestDto);
+  createTest(
+    @Param('courseId', ParseIntPipe) courseId: number,
+    @Body() createTestDto: CreateTestDTO,
+  ): Promise<Test> {
+    return this.testsService.createTest(createTestDto, courseId);
   }
 
   @UseGuards(JwtAuthGuard, RoleGuard)
-  @Delete(':id')
+  @Delete(':courseId/tests/:testId')
   @Role('admin')
-  deleteTest(@Param('id', ParseIntPipe) testId: number): Promise<void> {
-    return this.testsService.deleteTest(testId);
+  deleteTest(
+    @Param('courseId', ParseIntPipe) courseId: number,
+    @Param('testId', ParseIntPipe) testId: number,
+  ): Promise<void> {
+    return this.testsService.deleteTest(testId, courseId);
   }
 
   @UseGuards(JwtAuthGuard, RoleGuard)
-  @Patch(':id')
+  @Patch(':courseId/tests/:testId')
   @Role('admin')
   updateTest(
-    @Param('id', ParseIntPipe) testId: number,
+    @Param('courseId', ParseIntPipe) courseId: number,
+    @Param('testId', ParseIntPipe) testId: number,
     @Body() updateTestDto: UpdateTestDTO,
-  ): Promise<UpdateTestDTO> {
-    return this.testsService.updateTest(testId, updateTestDto);
+  ): Promise<Test> {
+    return this.testsService.updateTest(testId, courseId, updateTestDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get()
-  getAllTests(): Promise<Test[]> {
-    return this.testsService.getAllTests();
+  @Get(':courseId/tests')
+  getAllCourseTests(
+    @Param('courseId', ParseIntPipe) courseId: number,
+  ): Promise<Test[]> {
+    return this.testsService.getAllCourseTests(courseId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':courseId/tests/:testId')
+  getOneCourseTest(
+    @Param('courseId', ParseIntPipe) courseId: number,
+    @Param('testId', ParseIntPipe) testId: number,
+  ): Promise<Test> {
+    return this.testsService.getOneCourseTest(courseId, testId);
   }
 }
