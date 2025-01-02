@@ -17,6 +17,7 @@ import { VideoMaterial } from '../video-materials/entities/video-material.entity
 import { Answer } from '../answers/entities/answer.entity';
 import { Image } from '../images/entities/image.entity';
 import { Attempt } from '../attempts/entities/attempt.entity';
+import { CoursesModule } from '../courses/courses.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { Attempt } from '../attempts/entities/attempt.entity';
     TokenModule,
     TestsModule,
     QuestionsModule,
+    CoursesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
