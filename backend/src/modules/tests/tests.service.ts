@@ -42,7 +42,7 @@ export class TestsService {
 
   async deleteTest(testId: number, courseId: number): Promise<void> {
     try {
-      await this.questionsService.deleteAllQuestionsTest(testId);
+      // await this.questionsService.deleteAllQuestionsTest(testId);
       await this.testsRepository.delete({ course_id: courseId, id: testId });
     } catch (e) {
       throw new Error(e);

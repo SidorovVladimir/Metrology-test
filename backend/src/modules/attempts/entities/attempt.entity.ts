@@ -1,4 +1,3 @@
-import { IsBoolean, IsNumber } from 'class-validator';
 import { Test } from 'src/modules/tests/entities/test.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import {
@@ -12,19 +11,15 @@ import {
 
 @Entity('attempts')
 export class Attempt {
-  @IsNumber()
   @PrimaryGeneratedColumn()
   attempt_id: number;
 
-  @IsNumber()
   @Column()
   score: number;
 
-  @IsBoolean()
   @Column('boolean')
   is_successful: boolean;
 
-  @IsNumber()
   @Column()
   user_id: number;
 
@@ -32,7 +27,6 @@ export class Attempt {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @IsNumber()
   @Column()
   test_id: number;
 
