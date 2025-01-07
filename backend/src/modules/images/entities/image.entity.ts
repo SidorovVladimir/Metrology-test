@@ -1,4 +1,3 @@
-import { IsNumber, IsString } from 'class-validator';
 import { Question } from 'src/modules/questions/entities/question.entity';
 import {
   Column,
@@ -11,19 +10,15 @@ import {
 
 @Entity('images')
 export class Image {
-  @IsNumber()
   @PrimaryGeneratedColumn()
   image_id: number;
 
-  @IsString()
   @Column('text')
   image_url: string;
 
-  @IsString()
   @Column('text')
-  title: string;
+  image_path: string;
 
-  @IsNumber()
   @Column()
   question_id: number;
 

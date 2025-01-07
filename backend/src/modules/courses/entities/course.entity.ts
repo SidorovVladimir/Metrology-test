@@ -1,4 +1,3 @@
-import { IsNumber, IsString } from 'class-validator';
 import { Test } from 'src/modules/tests/entities/test.entity';
 import {
   Column,
@@ -10,15 +9,12 @@ import {
 
 @Entity('courses')
 export class Course {
-  @IsNumber()
   @PrimaryGeneratedColumn()
   course_id: number;
 
-  @IsString()
   @Column('text')
   title: string;
 
-  @IsString()
   @Column('text')
   description: string;
 
